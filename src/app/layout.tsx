@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "ReplyUMKM AI - Asisten Operasional UMKM",
-  description: "Asisten AI untuk membantu UMKM Indonesia mengelola komunikasi pelanggan dan operasional ringan secara lebih cepat, rapi, dan profesional.",
+  title: "ReplyUMKM AI - Dashboard",
+  description: "Asisten AI untuk membantu UMKM Indonesia mengelola komunikasi pelanggan dan operasional.",
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${inter.variable} antialiased min-h-screen flex flex-col font-sans`}>
+      <body className={`${plusJakarta.variable} antialiased min-h-screen bg-slate-50 font-sans`}>
         {children}
       </body>
     </html>
