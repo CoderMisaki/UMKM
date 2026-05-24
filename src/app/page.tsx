@@ -5,35 +5,32 @@ import { ArrowRight, MessageSquare, ShieldAlert, FileText, Share2, ClipboardList
 export default function Home() {
   return (
     <main className="flex-1 flex flex-col min-h-screen bg-background">
-      <header className="px-6 py-4 border-b bg-card flex items-center justify-between sticky top-0 z-10">
+      <header className="px-4 py-4 md:px-6 md:py-4 border-b bg-card flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-2">
           <div className="bg-primary rounded-lg p-1">
             <MessageSquare className="w-6 h-6 text-primary-foreground" />
           </div>
           <span className="text-xl font-bold text-foreground">ReplyUMKM AI</span>
         </div>
-        <Link href="/app">
-          <Button>Buka Aplikasi</Button>
-        </Link>
       </header>
 
-      <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 bg-gradient-to-b from-secondary to-background">
-        <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight max-w-4xl mb-6">
+      <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-12 md:py-20 bg-gradient-to-b from-secondary to-background">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight max-w-4xl mb-6">
           Asisten AI Operasional <br /> <span className="text-primary">Untuk UMKM Indonesia</span>
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10">
+        <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mb-10">
           Kelola chat pelanggan, tangani komplain, dan buat konten promosi lebih cepat, rapi, dan profesional.
         </p>
         <Link href="/app">
-          <Button size="lg" className="text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
+          <Button size="lg" className="text-base md:text-lg px-6 md:px-8 py-4 md:py-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
             Mulai Gratis Sekarang <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
         </Link>
       </section>
 
-      <section className="py-20 px-6 max-w-6xl mx-auto w-full">
+      <section className="py-12 md:py-20 px-4 md:px-6 max-w-6xl mx-auto w-full">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-4">Semua Fitur yang UMKM Butuhkan</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Semua Fitur yang UMKM Butuhkan</h2>
           <p className="text-muted-foreground">Otomatiskan operasional harian toko Anda dengan satu klik.</p>
         </div>
 
@@ -66,8 +63,8 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-card border-t py-8 mt-auto">
-        <div className="max-w-6xl mx-auto px-6 text-center text-muted-foreground">
+      <footer className="bg-card border-t py-8 md:py-12 mt-auto">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 text-center text-muted-foreground">
           &copy; {new Date().getFullYear()} ReplyUMKM AI. Dibuat untuk UMKM Indonesia.
         </div>
       </footer>
