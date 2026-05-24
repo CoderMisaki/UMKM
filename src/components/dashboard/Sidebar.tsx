@@ -49,15 +49,15 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         <div className="flex-1 overflow-y-auto py-6 px-4 space-y-8 scrollbar-hide">
           <div className="space-y-1">
             <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Menu Utama</p>
-            <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Dashboard" active />
-            <NavItem icon={<MessageSquare className="w-5 h-5" />} label="Balasan Cerdas" />
-            <NavItem icon={<Sparkles className="w-5 h-5" />} label="Alat Konten" />
+            <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Dashboard" href="/" active />
+            <NavItem icon={<MessageSquare className="w-5 h-5" />} label="Balasan Cerdas" href="/app?tool=balasChat" />
+            <NavItem icon={<Sparkles className="w-5 h-5" />} label="Alat Konten" href="/app?tool=caption" />
           </div>
 
           <div className="space-y-1">
             <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Lainnya</p>
-            <NavItem icon={<Settings className="w-5 h-5" />} label="Pengaturan" />
-            <NavItem icon={<LifeBuoy className="w-5 h-5" />} label="Bantuan & CS" />
+            <NavItem icon={<Settings className="w-5 h-5" />} label="Pengaturan" href="/app" />
+            <NavItem icon={<LifeBuoy className="w-5 h-5" />} label="Bantuan & CS" href="/app" />
           </div>
         </div>
 
@@ -100,10 +100,10 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   );
 }
 
-function NavItem({ icon, label, active = false }: { icon: React.ReactNode; label: string; active?: boolean }) {
+function NavItem({ icon, label, href, active = false }: { icon: React.ReactNode; label: string; href: string; active?: boolean }) {
   return (
     <Link
-      href="#"
+      href={href}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
         active
           ? "bg-emerald-50 text-emerald-700 font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] border border-emerald-100/50"
