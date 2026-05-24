@@ -17,24 +17,24 @@ export default function DashboardPage() {
       </div>
 
       <Tabs defaultValue="balasChat" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 h-auto md:h-14 bg-card border shadow-sm rounded-xl mb-6 p-1">
-          <TabsTrigger value="balasChat" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg">
+        <TabsList className="flex w-full overflow-x-auto snap-x md:grid md:grid-cols-5 h-auto md:h-14 bg-card border shadow-sm rounded-xl mb-6 p-1">
+          <TabsTrigger value="balasChat" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
             <MessageSquare className="w-4 h-4 hidden md:block" />
             Balas Chat
           </TabsTrigger>
-          <TabsTrigger value="komplain" className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground py-2 md:py-3 rounded-lg">
+          <TabsTrigger value="komplain" className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
             <ShieldAlert className="w-4 h-4 hidden md:block" />
             Komplain
           </TabsTrigger>
-          <TabsTrigger value="deskripsi" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg">
+          <TabsTrigger value="deskripsi" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
             <FileText className="w-4 h-4 hidden md:block" />
             Deskripsi
           </TabsTrigger>
-          <TabsTrigger value="caption" className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground py-2 md:py-3 rounded-lg">
+          <TabsTrigger value="caption" className="flex items-center gap-2 data-[state=active]:bg-accent data-[state=active]:text-accent-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
             <Share2 className="w-4 h-4 hidden md:block" />
             Caption
           </TabsTrigger>
-          <TabsTrigger value="ringkas" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg col-span-2 md:col-span-1">
+          <TabsTrigger value="ringkas" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg col-span-2 md:col-span-1 whitespace-nowrap">
             <ClipboardList className="w-4 h-4 hidden md:block" />
             Ringkas
           </TabsTrigger>
