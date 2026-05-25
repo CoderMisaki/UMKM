@@ -1,9 +1,8 @@
 "use client";
 
 
-import { MessageSquare, LayoutDashboard, Settings, Crown, LifeBuoy, X, Sparkles, ChevronRight } from "lucide-react";
+import { MessageSquare, LayoutDashboard, Settings, LifeBuoy, X, Sparkles, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -58,25 +57,6 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Lainnya</p>
             <NavItem icon={<Settings className="w-5 h-5" />} label="Pengaturan" href="/app" />
             <NavItem icon={<LifeBuoy className="w-5 h-5" />} label="Bantuan & CS" href="/app" />
-          </div>
-        </div>
-
-        {/* Upgrade Card */}
-        <div className="px-4 py-4">
-          <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200/60 relative overflow-hidden group">
-            <div className="absolute -right-4 -top-4 w-24 h-24 bg-gradient-to-br from-emerald-200 to-teal-200 rounded-full opacity-20 blur-2xl group-hover:opacity-40 transition-opacity"></div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="bg-amber-100 text-amber-600 p-1.5 rounded-lg">
-                <Crown className="w-4 h-4" />
-              </div>
-              <h4 className="font-semibold text-slate-800 text-sm">Upgrade Pro</h4>
-            </div>
-            <p className="text-xs text-slate-500 mb-3 leading-relaxed">
-              Dapatkan akses tanpa batas ke semua fitur AI canggih.
-            </p>
-            <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white shadow-md text-xs py-1.5 h-8 rounded-xl transition-all">
-              Lihat Paket
-            </Button>
           </div>
         </div>
 
