@@ -11,7 +11,7 @@ const features = [
     icon: <MessageSquare className="w-6 h-6" />,
     color: "from-blue-500 to-indigo-500",
     bgColor: "bg-blue-50 text-blue-600",
-    href: "#"
+    href: "/app?tool=balasChat"
   },
   {
     title: "Komplain Assist",
@@ -19,7 +19,7 @@ const features = [
     icon: <ShieldAlert className="w-6 h-6" />,
     color: "from-rose-400 to-red-500",
     bgColor: "bg-rose-50 text-rose-600",
-    href: "#"
+    href: "/app?tool=komplain"
   },
   {
     title: "Deskripsi Produk",
@@ -27,7 +27,7 @@ const features = [
     icon: <FileText className="w-6 h-6" />,
     color: "from-amber-400 to-orange-500",
     bgColor: "bg-amber-50 text-amber-600",
-    href: "#"
+    href: "/app?tool=deskripsi"
   },
   {
     title: "Caption Promosi",
@@ -35,7 +35,7 @@ const features = [
     icon: <Share2 className="w-6 h-6" />,
     color: "from-violet-500 to-purple-600",
     bgColor: "bg-violet-50 text-violet-600",
-    href: "#"
+    href: "/app?tool=caption"
   },
   {
     title: "Ringkas Pesanan",
@@ -43,7 +43,7 @@ const features = [
     icon: <ClipboardList className="w-6 h-6" />,
     color: "from-emerald-400 to-emerald-600",
     bgColor: "bg-emerald-50 text-emerald-600",
-    href: "#"
+    href: "/app?tool=ringkas"
   },
   {
     title: "Tone Converter",
@@ -51,7 +51,7 @@ const features = [
     icon: <Wand2 className="w-6 h-6" />,
     color: "from-cyan-400 to-cyan-600",
     bgColor: "bg-cyan-50 text-cyan-600",
-    href: "#"
+    href: "/app"
   }
 ];
 

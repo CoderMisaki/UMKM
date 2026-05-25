@@ -7,8 +7,17 @@ import { Komplain } from "@/components/tools/Komplain";
 import { DeskripsiProduk } from "@/components/tools/DeskripsiProduk";
 import { CaptionPromo } from "@/components/tools/CaptionPromo";
 import { RingkasPesanan } from "@/components/tools/RingkasPesanan";
+import { useSearchParams } from "next/navigation";
+
+const VALID_TOOLS = ["balasChat", "komplain", "deskripsi", "caption", "ringkas"] as const;
 
 export default function DashboardPage() {
+  const searchParams = useSearchParams();
+  const tabFromQuery = searchParams.get("tool");
+  const defaultTool = VALID_TOOLS.includes(tabFromQuery as (typeof VALID_TOOLS)[number])
+    ? tabFromQuery
+    : "balasChat";
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8">
@@ -16,7 +25,7 @@ export default function DashboardPage() {
         <p className="text-muted-foreground">Pilih alat AI yang ingin Anda gunakan hari ini.</p>
       </div>
 
-      <Tabs defaultValue="balasChat" className="w-full">
+      <Tabs defaultValue={defaultTool} className="w-full">
         <TabsList className="flex w-full overflow-x-auto snap-x md:grid md:grid-cols-5 h-auto md:h-14 bg-card border shadow-sm rounded-xl mb-6 p-1">
           <TabsTrigger value="balasChat" className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
             <MessageSquare className="w-4 h-4 hidden md:block" />
