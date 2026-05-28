@@ -1,9 +1,11 @@
-export type ToolType = "balasChat" | "komplain" | "deskripsiProduk" | "captionPromo" | "ringkasPesanan";
+import type { ToolType } from "@/lib/tools";
+
+export type { ToolType };
 
 export interface HistoryItem {
   id: string;
   toolType: ToolType;
-  prompt: Record<string, string>; // We'll keep it flexible since different tools have different inputs
+  prompt: Record<string, string>;
   result: string;
   timestamp: number;
 }

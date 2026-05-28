@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MessageSquare, LayoutDashboard, History, Trash2 } from "lucide-react";
 import { useHistory } from "@/hooks/use-history";
+import { getToolLabel } from "@/lib/tools";
 
 
 export default function AppLayout({
@@ -52,10 +53,7 @@ export default function AppLayout({
                 history.map((item) => (
                   <div key={item.id} className="text-xs border rounded p-2 bg-secondary text-secondary-foreground truncate">
                     <span className="font-semibold block mb-1">
-                      {item.toolType === "balasChat" ? "Balas Chat" :
-                       item.toolType === "komplain" ? "Komplain" :
-                       item.toolType === "deskripsiProduk" ? "Deskripsi" :
-                       item.toolType === "captionPromo" ? "Caption" : "Ringkasan"}
+                      {getToolLabel(item.toolType)}
                     </span>
                     {item.result.substring(0, 40)}...
                   </div>
