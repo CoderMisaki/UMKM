@@ -31,6 +31,9 @@ export function CaptionPromo() {
         body: JSON.stringify({ toolType: "captionPromo", prompt: form }),
       });
       const data = await res.json();
+      if (!res.ok || !data.result) {
+        throw new Error(data.error || "Gagal membuat konten.");
+      }
       setResult(data.result);
       addHistory({ toolType: "captionPromo", prompt: form, result: data.result });
     } catch (e) {
@@ -41,10 +44,14 @@ export function CaptionPromo() {
     }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(result);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(result);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

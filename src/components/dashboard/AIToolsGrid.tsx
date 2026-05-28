@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, ShieldAlert, FileText, Share2, ClipboardList, Wand2, ArrowUpRight } from "lucide-react";
+import { MessageSquare, ShieldAlert, FileText, Share2, ClipboardList, ArrowUpRight, Wand2 } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -51,7 +51,7 @@ const features = [
     icon: <Wand2 className="w-6 h-6" />,
     color: "from-cyan-400 to-cyan-600",
     bgColor: "bg-cyan-50 text-cyan-600",
-    href: "/app?tool=toneConverter"
+    href: "/app?tool=tone"
   }
 ];
 
