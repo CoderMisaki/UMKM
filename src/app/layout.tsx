@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "ReplyUMKM AI - Dashboard",
@@ -19,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${plusJakarta.variable} antialiased min-h-screen bg-slate-50 font-sans`}>
+      <body className="antialiased min-h-screen bg-slate-50 font-sans">
         {children}
       </body>
     </html>
