@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, ShieldAlert, FileText, Share2, ClipboardList, Wand2, ArrowUpRight } from "lucide-react";
+import { MessageSquare, ShieldAlert, FileText, Share2, ClipboardList, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -44,14 +44,6 @@ const features = [
     color: "from-emerald-400 to-emerald-600",
     bgColor: "bg-emerald-50 text-emerald-600",
     href: "/app?tool=ringkas"
-  },
-  {
-    title: "Tone Converter",
-    description: "Ubah nada bahasa pesan menjadi formal atau santai.",
-    icon: <Wand2 className="w-6 h-6" />,
-    color: "from-cyan-400 to-cyan-600",
-    bgColor: "bg-cyan-50 text-cyan-600",
-    href: "/app"
   }
 ];
 
