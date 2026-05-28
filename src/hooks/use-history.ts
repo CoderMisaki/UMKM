@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import type { HistoryItem } from "@/lib/types";
 
 const HISTORY_KEY = "replyumkm_history";
@@ -25,33 +25,45 @@ function readHistory(): HistoryItem[] {
 }
 
 function writeHistory(history: HistoryItem[]) {
+  if (typeof window === "undefined") return;
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   window.dispatchEvent(new CustomEvent<HistoryItem[]>(HISTORY_CHANGED_EVENT, { detail: history }));
 }
 
+function subscribe(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+
+  window.addEventListener(HISTORY_CHANGED_EVENT, callback);
+  window.addEventListener("storage", (e) => {
+    if (e.key === HISTORY_KEY) callback();
+  });
+
+  return () => {
+    window.removeEventListener(HISTORY_CHANGED_EVENT, callback);
+    window.removeEventListener("storage", callback);
+  };
+}
+
+let cachedHistory: HistoryItem[] | null = null;
+let lastStoredValue: string | null = null;
+
+function getSnapshot() {
+  if (typeof window === "undefined") return [];
+
+  const stored = localStorage.getItem(HISTORY_KEY);
+  if (stored !== lastStoredValue) {
+    lastStoredValue = stored;
+    cachedHistory = readHistory();
+  }
+  return cachedHistory || [];
+}
+
+function getServerSnapshot() {
+  return [];
+}
+
 export function useHistory() {
-  const [history, setHistory] = useState<HistoryItem[]>(() => readHistory());
-
-  useEffect(() => {
-    const handleHistoryChanged = (event: Event) => {
-      const customEvent = event as CustomEvent<HistoryItem[]>;
-      setHistory(customEvent.detail ?? readHistory());
-    };
-
-    const handleStorageChanged = (event: StorageEvent) => {
-      if (event.key === HISTORY_KEY) {
-        setHistory(readHistory());
-      }
-    };
-
-    window.addEventListener(HISTORY_CHANGED_EVENT, handleHistoryChanged);
-    window.addEventListener("storage", handleStorageChanged);
-
-    return () => {
-      window.removeEventListener(HISTORY_CHANGED_EVENT, handleHistoryChanged);
-      window.removeEventListener("storage", handleStorageChanged);
-    };
-  }, []);
+  const history = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const addHistory = useCallback((item: Omit<HistoryItem, "id" | "timestamp">) => {
     const newItem: HistoryItem = {
@@ -60,22 +72,21 @@ export function useHistory() {
       timestamp: Date.now(),
     };
 
-    setHistory((prev) => {
-      const updated = [newItem, ...prev].slice(0, MAX_HISTORY);
-      try {
-        writeHistory(updated);
-      } catch (e) {
-        console.error("Failed to save history", e);
-      }
-      return updated;
-    });
+    const currentHistory = readHistory();
+    const updated = [newItem, ...currentHistory].slice(0, MAX_HISTORY);
+    try {
+      writeHistory(updated);
+    } catch (e) {
+      console.error("Failed to save history", e);
+    }
   }, []);
 
   const clearHistory = useCallback(() => {
-    setHistory([]);
     try {
-      localStorage.removeItem(HISTORY_KEY);
-      window.dispatchEvent(new CustomEvent<HistoryItem[]>(HISTORY_CHANGED_EVENT, { detail: [] }));
+      if (typeof window !== "undefined") {
+          localStorage.removeItem(HISTORY_KEY);
+          window.dispatchEvent(new CustomEvent<HistoryItem[]>(HISTORY_CHANGED_EVENT, { detail: [] }));
+      }
     } catch (e) {
       console.error("Failed to clear history", e);
     }
