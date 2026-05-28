@@ -58,6 +58,14 @@ Buatkan caption promosi yang menarik, sertakan hashtag yang relevan jika perlu.`
 
 Tolong ekstrak informasi pesanan dari chat di atas ke dalam format daftar yang rapi.`;
         break;
+
+      case "toneConverter":
+        systemInstruction += `\nFungsi: Mengubah nada bahasa dari pesan asli ke nada tujuan yang diminta. Pastikan makna asli tetap terjaga, namun gayanya berubah total.`;
+        userMessage = `Pesan Asli: "${prompt.message}"
+Nada Tujuan: ${prompt.targetTone}
+
+Ubah pesan di atas sesuai nada tujuan.`;
+        break;
       default:
         return NextResponse.json({ error: "Invalid toolType" }, { status: 400 });
     }
@@ -72,7 +80,10 @@ Tolong ekstrak informasi pesanan dari chat di atas ke dalam format daftar yang r
       if (toolType === "komplain") mockResult = `[Mock] Mohon maaf atas ketidaknyamanannya Kak terkait ${prompt.type}. Sesuai info, kami akan ${prompt.solution || 'segera bantu cek'}. Mohon ditunggu ya! 🙏`;
       if (toolType === "deskripsiProduk") mockResult = `[Mock] ✨ ${prompt.name} ✨\n\nHarga: ${prompt.price || 'Terbaik di kelasnya'}\n\nKenapa harus beli produk ini?\n${prompt.benefits}\n\nCocok banget buat ${prompt.audience || 'semua kalangan'}. Yuk buruan checkout sekarang! 🛒`;
       if (toolType === "captionPromo") mockResult = `[Mock] 🎉 PROMO ${prompt.promoType} 🎉\n\nDapatkan ${prompt.product} sekarang juga dengan penawaran spesial! Promo terbatas, jangan sampai kehabisan ya bestie!\n\nLangsung klik link di bio untuk order! 🚀\n#Promo #UMKMIndonesia #${prompt.platform.replace(/\s+/g, '')}`;
+
       if (toolType === "ringkasPesanan") mockResult = `[Mock] 📋 *Ringkasan Pesanan*\n\n- Nama: Budi\n- Produk: Kemeja Flanel Merah\n- Jumlah: 2 (Ukuran L)\n- Alamat: Jl. Sudirman No 10 Jakarta\n- No HP: 0812345678\n- Catatan: -`;
+      if (toolType === "toneConverter") mockResult = `[Mock] Selamat pagi/siang. Apakah stok untuk barang tersebut masih tersedia? Saya bermaksud untuk memesan 2 unit. Terima kasih.`;
+
 
       return NextResponse.json({ result: mockResult });
     }

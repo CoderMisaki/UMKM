@@ -55,7 +55,8 @@ export default function AppLayout({
                       {item.toolType === "balasChat" ? "Balas Chat" :
                        item.toolType === "komplain" ? "Komplain" :
                        item.toolType === "deskripsiProduk" ? "Deskripsi" :
-                       item.toolType === "captionPromo" ? "Caption" : "Ringkasan"}
+                       item.toolType === "captionPromo" ? "Caption" :
+                       item.toolType === "toneConverter" ? "Ubah Nada" : "Ringkasan"}
                     </span>
                     {item.result.substring(0, 40)}...
                   </div>

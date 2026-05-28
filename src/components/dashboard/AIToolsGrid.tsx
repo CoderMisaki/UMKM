@@ -51,7 +51,7 @@ const features = [
     icon: <Wand2 className="w-6 h-6" />,
     color: "from-cyan-400 to-cyan-600",
     bgColor: "bg-cyan-50 text-cyan-600",
-    href: "/app"
+    href: "/app?tool=toneConverter"
   }
 ];
 

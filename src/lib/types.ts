@@ -1,4 +1,4 @@
-export type ToolType = "balasChat" | "komplain" | "deskripsiProduk" | "captionPromo" | "ringkasPesanan";
+export type ToolType = "balasChat" | "komplain" | "deskripsiProduk" | "captionPromo" | "ringkasPesanan" | "toneConverter";
 
 export interface HistoryItem {
   id: string;
