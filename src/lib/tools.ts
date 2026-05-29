@@ -19,6 +19,10 @@ export const TOOL_DEFINITIONS = {
     label: "Ringkas Pesanan",
     aliases: ["ringkasPesanan", "ringkas"],
   },
+  toneConverter: {
+    label: "Ubah Nada",
+    aliases: ["toneConverter", "tone"],
+  },
 } as const;
 
 export type ToolType = keyof typeof TOOL_DEFINITIONS;

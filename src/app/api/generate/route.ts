@@ -33,6 +33,8 @@ function hasRequiredFields(toolType: ToolType, prompt: Prompt) {
       return Boolean(prompt.product);
     case "ringkasPesanan":
       return Boolean(prompt.chatText);
+    case "toneConverter":
+      return Boolean(prompt.message);
   }
 }
 
@@ -86,6 +88,13 @@ Buatkan caption promosi yang menarik, sertakan hashtag yang relevan jika perlu.`
 "${prompt.chatText}"
 
 Tolong ekstrak informasi pesanan dari chat di atas ke dalam format daftar yang rapi.`;
+      break;
+    case "toneConverter":
+      systemInstruction += `\nFungsi: Mengubah nada bahasa dari pesan asli ke nada tujuan yang diminta. Pastikan makna asli tetap terjaga, namun gayanya berubah total.`;
+      userMessage = `Pesan Asli: "${prompt.message}"
+Nada Tujuan: ${prompt.targetTone}
+
+Ubah pesan di atas sesuai nada tujuan.`;
       break;
   }
 

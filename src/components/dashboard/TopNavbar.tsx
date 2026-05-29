@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Search, Bell, Zap } from "lucide-react";
+import { Menu, Search, Bell } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 
@@ -30,20 +30,6 @@ export function TopNavbar({ setSidebarOpen }: TopNavbarProps) {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Credit Usage Widget */}
-        <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-full shadow-sm">
-          <div className="bg-amber-100 text-amber-600 p-1 rounded-full">
-            <Zap className="w-3.5 h-3.5" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider leading-none">Kredit AI</span>
-            <div className="flex items-baseline gap-1">
-              <span className="text-sm font-bold text-slate-800 leading-none mt-0.5">120</span>
-              <span className="text-[10px] text-slate-400">/ 500</span>
-            </div>
-          </div>
-        </div>
-
         {/* Notifications */}
         <button className="relative p-2.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors">
           <Bell className="w-5 h-5" />

@@ -55,8 +55,8 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
           <div className="space-y-1">
             <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Lainnya</p>
-            <NavItem icon={<Settings className="w-5 h-5" />} label="Pengaturan" href="/app" />
-            <NavItem icon={<LifeBuoy className="w-5 h-5" />} label="Bantuan & CS" href="/app" />
+            <NavItem icon={<Settings className="w-5 h-5" />} label="Pengaturan" href="/pengaturan" />
+            <NavItem icon={<LifeBuoy className="w-5 h-5" />} label="Bantuan & CS" href="/bantuan" />
           </div>
         </div>
 

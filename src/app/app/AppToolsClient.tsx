@@ -7,6 +7,8 @@ import { Komplain } from "@/components/tools/Komplain";
 import { DeskripsiProduk } from "@/components/tools/DeskripsiProduk";
 import { CaptionPromo } from "@/components/tools/CaptionPromo";
 import { RingkasPesanan } from "@/components/tools/RingkasPesanan";
+import { ToneConverter } from "@/components/tools/ToneConverter";
+import { Wand2 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { normalizeToolType, type ToolType } from "@/lib/tools";
 
@@ -16,6 +18,7 @@ const TAB_TO_TOOL_TYPE = {
   deskripsi: "deskripsiProduk",
   caption: "captionPromo",
   ringkas: "ringkasPesanan",
+  tone: "toneConverter",
 } as const;
 
 type TabValue = keyof typeof TAB_TO_TOOL_TYPE;
@@ -47,7 +50,7 @@ export function AppToolsClient() {
 
   return (
     <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-      <TabsList className="flex w-full overflow-x-auto snap-x md:grid md:grid-cols-5 h-auto md:h-14 bg-card border shadow-sm rounded-xl mb-6 p-1">
+      <TabsList className="flex w-full overflow-x-auto snap-x md:grid md:grid-cols-6 h-auto md:h-14 bg-card border shadow-sm rounded-xl mb-6 p-1">
         <TabsTrigger value="balasChat" className="flex items-center gap-2 data-active:bg-primary data-active:text-primary-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
           <MessageSquare className="w-4 h-4 hidden md:block" />
           Balas Chat
@@ -68,6 +71,11 @@ export function AppToolsClient() {
           <ClipboardList className="w-4 h-4 hidden md:block" />
           Ringkas
         </TabsTrigger>
+
+        <TabsTrigger value="tone" className="flex items-center gap-2 data-active:bg-accent data-active:text-accent-foreground py-2 md:py-3 rounded-lg whitespace-nowrap">
+          <Wand2 className="w-4 h-4 hidden md:block" />
+          Ubah Nada
+        </TabsTrigger>
       </TabsList>
 
       <div className="bg-card border rounded-xl p-4 md:p-6 shadow-sm">
@@ -86,7 +94,11 @@ export function AppToolsClient() {
         <TabsContent value="ringkas" className="m-0 focus-visible:outline-none focus-visible:ring-0">
           <RingkasPesanan />
         </TabsContent>
+        <TabsContent value="tone" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+          <ToneConverter />
+        </TabsContent>
       </div>
+
     </Tabs>
   );
 }
