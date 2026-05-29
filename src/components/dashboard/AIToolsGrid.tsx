@@ -27,7 +27,7 @@ const features = [
     icon: <FileText className="w-6 h-6" />,
     color: "from-amber-400 to-orange-500",
     bgColor: "bg-amber-50 text-amber-600",
-    href: "/app?tool=deskripsi"
+    href: "/app?tool=deskripsiProduk"
   },
   {
     title: "Caption Promosi",
@@ -35,7 +35,7 @@ const features = [
     icon: <Share2 className="w-6 h-6" />,
     color: "from-violet-500 to-purple-600",
     bgColor: "bg-violet-50 text-violet-600",
-    href: "/app?tool=caption"
+    href: "/app?tool=captionPromo"
   },
   {
     title: "Ringkas Pesanan",
@@ -43,7 +43,7 @@ const features = [
     icon: <ClipboardList className="w-6 h-6" />,
     color: "from-emerald-400 to-emerald-600",
     bgColor: "bg-emerald-50 text-emerald-600",
-    href: "/app?tool=ringkas"
+    href: "/app?tool=ringkasPesanan"
   },
   {
     title: "Tone Converter",
@@ -51,7 +51,7 @@ const features = [
     icon: <Wand2 className="w-6 h-6" />,
     color: "from-cyan-400 to-cyan-600",
     bgColor: "bg-cyan-50 text-cyan-600",
-    href: "/app?tool=tone"
+    href: "/app?tool=toneConverter"
   }
 ];
 

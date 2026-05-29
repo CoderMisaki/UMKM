@@ -50,7 +50,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             <p className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Menu Utama</p>
             <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Dashboard" href="/" active />
             <NavItem icon={<MessageSquare className="w-5 h-5" />} label="Balasan Cerdas" href="/app?tool=balasChat" />
-            <NavItem icon={<Sparkles className="w-5 h-5" />} label="Alat Konten" href="/app?tool=caption" />
+            <NavItem icon={<Sparkles className="w-5 h-5" />} label="Alat Konten" href="/app?tool=captionPromo" />
           </div>
 
           <div className="space-y-1">
