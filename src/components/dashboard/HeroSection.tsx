@@ -9,10 +9,6 @@ export function HeroSection() {
   return (
     <div className="mb-8 rounded-3xl overflow-hidden shadow-xl">
       <Hero
-        trustBadge={{
-          text: "6 alat AI siap pakai untuk operasional UMKM",
-          icons: ["✨", "🚀", "⭐"]
-        }}
         headline={{
           line1: "Tingkatkan Penjualan Anda",
           line2: "Tanpa Ribet Operasional"
