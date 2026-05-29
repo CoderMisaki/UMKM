@@ -95,8 +95,7 @@ void main(){gl_Position=position;}`;
       gl.compileShader(shader);
 
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        const error = gl.getShaderInfoLog(shader);
-        console.error('Shader compilation error:', error);
+        gl.deleteShader(shader);
       }
     }
 
@@ -141,7 +140,6 @@ void main(){gl_Position=position;}`;
       gl.linkProgram(this.program);
 
       if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
-        console.error(gl.getProgramInfoLog(this.program));
       }
     }
 
@@ -312,6 +310,8 @@ void main(){gl_Position=position;}`;
         rendererRef.current.reset();
       }
     };
+  // WebGLRenderer/PointerHandler/loop are intentionally created once for this canvas lifecycle.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return canvasRef;

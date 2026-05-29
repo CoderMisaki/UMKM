@@ -4,9 +4,44 @@ import type { ToolType } from "@/lib/tools";
 
 interface UseAiToolOptions {
   toolType: ToolType;
+  saveHistory?: boolean;
 }
 
-export function useAiTool({ toolType }: UseAiToolOptions) {
+function parseSseData(line: string) {
+  try {
+    return JSON.parse(line.slice(6)) as { text?: string; done?: boolean; error?: string };
+  } catch {
+    throw new Error("Format stream AI tidak valid. Silakan coba lagi.");
+  }
+}
+
+async function copyTextWithFallback(text: string) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      // Fallback manual untuk browser/perizinan yang memblokir Clipboard API.
+    }
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  const copied = document.execCommand("copy");
+  document.body.removeChild(textarea);
+
+  if (!copied) {
+    throw new Error("Gagal menyalin teks. Silakan blok dan salin manual.");
+  }
+}
+
+export function useAiTool({ toolType, saveHistory = true }: UseAiToolOptions) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
@@ -14,129 +49,133 @@ export function useAiTool({ toolType }: UseAiToolOptions) {
 
   const { addHistory } = useHistory();
   const abortControllerRef = useRef<AbortController | null>(null);
+  const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
+      abortControllerRef.current?.abort();
+      if (copiedTimeoutRef.current) {
+        clearTimeout(copiedTimeoutRef.current);
       }
     };
   }, []);
 
-  const reset = useCallback(() => {
-    setResult("");
-    setError("");
-    setLoading(false);
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      abortControllerRef.current = null;
+  const clearCopiedTimer = useCallback(() => {
+    if (copiedTimeoutRef.current) {
+      clearTimeout(copiedTimeoutRef.current);
+      copiedTimeoutRef.current = null;
     }
   }, []);
 
+  const reset = useCallback(() => {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
+    clearCopiedTimer();
+    setResult("");
+    setError("");
+    setCopied(false);
+    setLoading(false);
+  }, [clearCopiedTimer]);
+
   const generate = useCallback(
     async (prompt: Record<string, string>) => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-      abortControllerRef.current = new AbortController();
+      abortControllerRef.current?.abort();
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
 
       setLoading(true);
       setResult("");
       setError("");
+      setCopied(false);
 
       let finalResult = "";
+      let streamDone = false;
 
       try {
         const response = await fetch("/api/generate", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ toolType, prompt }),
-          signal: abortControllerRef.current.signal,
+          signal: controller.signal,
         });
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || "Gagal membuat konten.");
+          throw new Error(
+            typeof errorData.error === "string" ? errorData.error : "Gagal membuat konten. Silakan coba lagi."
+          );
         }
 
         if (!response.body) {
-          throw new Error("Stream body tidak tersedia.");
+          throw new Error("Stream AI tidak tersedia. Silakan coba lagi.");
         }
 
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let buffer = "";
 
-        while (true) {
+        while (!streamDone) {
           const { done, value } = await reader.read();
           if (done) break;
 
           buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n\n");
-          buffer = lines.pop() || "";
+          const events = buffer.split("\n\n");
+          buffer = events.pop() || "";
 
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const dataStr = line.slice(6);
-              try {
-                const data = JSON.parse(dataStr);
-                if (data.error) {
-                  throw new Error(data.error);
-                }
-                if (data.done) {
-                  // stream complete
-                } else if (data.text) {
-                  finalResult += data.text;
-                  setResult(finalResult);
-                }
-              } catch (e) {
-                console.error("Failed to parse SSE data", e);
-              }
+          for (const event of events) {
+            const line = event.split("\n").find((item) => item.startsWith("data: "));
+            if (!line) continue;
+
+            const data = parseSseData(line);
+            if (typeof data.error === "string" && data.error) {
+              throw new Error(data.error);
+            }
+
+            if (data.done) {
+              streamDone = true;
+              break;
+            }
+
+            if (typeof data.text === "string") {
+              finalResult += data.text;
+              setResult(finalResult);
             }
           }
         }
 
-        if (finalResult) {
-            addHistory({
-                toolType,
-                prompt,
-                result: finalResult
-            });
+        if (finalResult && saveHistory) {
+          addHistory({ toolType, prompt, result: finalResult });
         }
-
       } catch (err: unknown) {
-        if (err instanceof Error && err.name === "AbortError") {
-          console.log("Request aborted");
-        } else {
-          setError(err instanceof Error ? err.message : "Terjadi kesalahan");
+        if (!(err instanceof Error && err.name === "AbortError")) {
+          setError(err instanceof Error ? err.message : "Terjadi kesalahan. Silakan coba lagi.");
         }
       } finally {
         setLoading(false);
+        if (abortControllerRef.current === controller) {
+          abortControllerRef.current = null;
+        }
       }
     },
-    [toolType, addHistory]
+    [addHistory, saveHistory, toolType]
   );
 
   const copyResult = useCallback(async () => {
     if (!result) return;
-    try {
-      await navigator.clipboard.writeText(result);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error("Failed to copy text", e);
-    }
-  }, [result]);
 
-  return {
-    loading,
-    result,
-    error,
-    copied,
-    generate,
-    copyResult,
-    reset,
-  };
+    try {
+      await copyTextWithFallback(result);
+      setError("");
+      setCopied(true);
+      clearCopiedTimer();
+      copiedTimeoutRef.current = setTimeout(() => {
+        setCopied(false);
+        copiedTimeoutRef.current = null;
+      }, 2_000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Gagal menyalin teks.");
+    }
+  }, [clearCopiedTimer, result]);
+
+  return { loading, result, error, copied, generate, copyResult, reset };
 }
