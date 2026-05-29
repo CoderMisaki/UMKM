@@ -1,7 +1,7 @@
 "use client";
 
 
-import { MessageSquare, LayoutDashboard, Settings, LifeBuoy, X, Sparkles, ChevronRight } from "lucide-react";
+import { MessageSquare, LayoutDashboard, Settings, LifeBuoy, X, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 interface SidebarProps {
@@ -59,22 +59,6 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             <NavItem icon={<LifeBuoy className="w-5 h-5" />} label="Bantuan & CS" href="/bantuan" />
           </div>
         </div>
-
-        {/* User Profile */}
-        <div className="p-4 border-t border-slate-100">
-          <button className="flex items-center justify-between w-full p-2 rounded-xl hover:bg-slate-50 transition-colors group">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 font-bold shadow-sm">
-                R
-              </div>
-              <div className="text-left">
-                <p className="text-sm font-semibold text-slate-800">Raden Store</p>
-                <p className="text-xs text-slate-500">raden@store.com</p>
-              </div>
-            </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" />
-          </button>
-        </div>
       </aside>
     </>
   );
@@ -82,7 +66,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
 function NavItem({ icon, label, href, active = false }: { icon: React.ReactNode; label: string; href: string; active?: boolean }) {
   return (
-    <Link
+    <a
       href={href}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
         active
@@ -94,6 +78,6 @@ function NavItem({ icon, label, href, active = false }: { icon: React.ReactNode;
         {icon}
       </div>
       <span className="text-sm">{label}</span>
-    </Link>
+    </a>
   );
 }
