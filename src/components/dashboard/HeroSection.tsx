@@ -10,7 +10,7 @@ export function HeroSection() {
     <div className="mb-8 rounded-3xl overflow-hidden shadow-xl">
       <Hero
         trustBadge={{
-          text: "Dipercaya oleh ribuan UMKM Indonesia",
+          text: "6 alat AI siap pakai untuk operasional UMKM",
           icons: ["✨", "🚀", "⭐"]
         }}
         headline={{
