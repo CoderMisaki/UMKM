@@ -11,13 +11,22 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+function maskSensitiveText(value: string) {
+  return value
+    .replace(/\b(?:\+62|62|0)8\d{7,12}\b/g, "[nomor HP disamarkan]")
+    .replace(/\b(?:jalan|jl\.?|jln\.?|alamat)\b[^\n,.;]{8,80}/gi, "[alamat disamarkan]")
+    .slice(0, 500);
+}
+
 function normalizeStringRecord(value: unknown): Record<string, string> {
   if (!isRecord(value)) {
     return {};
   }
 
   return Object.fromEntries(
-    Object.entries(value).filter((entry): entry is [string, string] => typeof entry[1] === "string")
+    Object.entries(value)
+      .filter((entry): entry is [string, string] => typeof entry[1] === "string")
+      .map(([key, text]) => [key, maskSensitiveText(text)])
   );
 }
 
@@ -43,7 +52,7 @@ function normalizeHistoryItem(value: unknown): HistoryItem | null {
     id: typeof value.id === "string" ? value.id : createHistoryId(),
     toolType,
     prompt: normalizeStringRecord(value.prompt),
-    result: value.result,
+    result: maskSensitiveText(value.result),
     timestamp: typeof value.timestamp === "number" ? value.timestamp : Date.now(),
   };
 }
@@ -65,8 +74,7 @@ function readHistory(): HistoryItem[] {
     }
 
     return parsed.map(normalizeHistoryItem).filter((item): item is HistoryItem => item !== null);
-  } catch (e) {
-    console.error("Failed to load history", e);
+  } catch {
     return EMPTY_HISTORY;
   }
 }
@@ -105,8 +113,7 @@ function getSnapshot() {
       lastStoredValue = stored;
       cachedHistory = readHistory();
     }
-  } catch (e) {
-    console.error("Failed to read history snapshot", e);
+  } catch {
     cachedHistory = EMPTY_HISTORY;
     lastStoredValue = null;
   }
@@ -123,24 +130,25 @@ export function useHistory() {
 
   const addHistory = useCallback((item: Omit<HistoryItem, "id" | "timestamp">) => {
     const toolType: ToolType | null = normalizeToolType(item.toolType);
-    if (!toolType) {
-      console.warn("Skipping history item with invalid toolType", item.toolType);
+    if (!toolType || toolType === "ringkasPesanan") {
       return;
     }
 
     const newItem: HistoryItem = {
       ...item,
       toolType,
+      prompt: normalizeStringRecord(item.prompt),
+      result: maskSensitiveText(item.result),
       id: createHistoryId(),
       timestamp: Date.now(),
     };
 
-    const currentHistory = readHistory();
-    const updated = [newItem, ...currentHistory].slice(0, MAX_HISTORY);
     try {
+      const currentHistory = readHistory();
+      const updated = [newItem, ...currentHistory].slice(0, MAX_HISTORY);
       writeHistory(updated);
-    } catch (e) {
-      console.error("Failed to save history", e);
+    } catch {
+      // localStorage dapat penuh/diblokir; jangan sampai UI crash.
     }
   }, []);
 
@@ -150,8 +158,8 @@ export function useHistory() {
         localStorage.removeItem(HISTORY_KEY);
         window.dispatchEvent(new CustomEvent<HistoryItem[]>(HISTORY_CHANGED_EVENT, { detail: [] }));
       }
-    } catch (e) {
-      console.error("Failed to clear history", e);
+    } catch {
+      // Abaikan error localStorage agar aplikasi tetap berjalan.
     }
   }, []);
 

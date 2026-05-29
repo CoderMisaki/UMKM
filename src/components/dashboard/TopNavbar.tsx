@@ -13,8 +13,10 @@ export function TopNavbar({ setSidebarOpen }: TopNavbarProps) {
     <header className="sticky top-0 z-30 flex items-center justify-between h-20 px-6 bg-white/70 backdrop-blur-xl border-b border-slate-200/50">
       <div className="flex items-center gap-4">
         <button
+          type="button"
           onClick={() => setSidebarOpen(true)}
-          className="lg:hidden p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
+          className="lg:hidden min-h-10 min-w-10 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
+          aria-label="Buka sidebar"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -31,7 +33,7 @@ export function TopNavbar({ setSidebarOpen }: TopNavbarProps) {
 
       <div className="flex items-center gap-4">
         {/* Notifications */}
-        <button className="relative p-2.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors">
+        <button type="button" className="relative min-h-10 min-w-10 p-2.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Notifikasi">
           <Bell className="w-5 h-5" />
           <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white shadow-sm"></span>
         </button>
